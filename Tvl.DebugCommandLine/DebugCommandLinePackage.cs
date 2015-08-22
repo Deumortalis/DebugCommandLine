@@ -24,7 +24,8 @@ namespace Tvl.DebugCommandLine
         private static readonly string[] KnownStartupProperties = { "CommandArguments", "StartArguments" };
         private static readonly string SettingsCollectionName = "DebugCommandLine";
         private static readonly string RecentCommandLinesCollectionName = SettingsCollectionName + @"\RecentCommandLines";
-        private static readonly int maxRecentCommandLineCount = 15;
+        private static readonly string CommandLineEditorName = "[Edit Lines...]";
+        public static readonly int maxRecentCommandLineCount = 15;
         private WritableSettingsStore SettingsStore;
 
         private ReadOnlyCollection<string> RecentCommandLines = new ReadOnlyCollection<string>(new string[0]);
@@ -88,6 +89,25 @@ namespace Tvl.DebugCommandLine
             string newChoice = oleEventArgs.InValue as string;
             if (newChoice != null)
             {
+                if(newChoice == CommandLineEditorName)
+                {
+                    //Show editor
+                    CommandLineEditor editorDialog = new CommandLineEditor(RecentCommandLines);
+                    editorDialog.Location = System.Windows.Forms.Cursor.Position;
+                    if(editorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        RecentCommandLines = editorDialog.getCommandLines();
+                        if (RecentCommandLines.Count <= 0)
+                        {
+                            newChoice = "";
+                        }
+                        else
+                        {
+                            newChoice = RecentCommandLines[0];
+                        }
+                    }
+                }
+                
                 SetStartupCommandArguments(newChoice);
                 SetMostRecentString(newChoice);
             }
@@ -142,7 +162,10 @@ namespace Tvl.DebugCommandLine
             if (oleEventArgs.OutValue == IntPtr.Zero)
                 throw new ArgumentException();
 
-            Marshal.GetNativeVariantForObject(RecentCommandLines.ToArray(), oleEventArgs.OutValue);
+            List<string> Options = new List<string>(RecentCommandLines);
+            Options.Add(CommandLineEditorName);
+
+            Marshal.GetNativeVariantForObject(Options.ToArray(), oleEventArgs.OutValue);
         }
 
         private static EnvDTE.Properties TryGetDtePropertiesFromHierarchy(IVsHierarchy hierarchy)
