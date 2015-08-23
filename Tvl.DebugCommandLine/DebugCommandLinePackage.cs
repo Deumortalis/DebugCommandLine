@@ -89,6 +89,7 @@ namespace Tvl.DebugCommandLine
             string newChoice = oleEventArgs.InValue as string;
             if (newChoice != null)
             {
+                bool acceptNewChoice = true;
                 if(newChoice == CommandLineEditorName)
                 {
                     //Show editor
@@ -106,10 +107,17 @@ namespace Tvl.DebugCommandLine
                             newChoice = RecentCommandLines[0];
                         }
                     }
+                    else
+                    {
+                        acceptNewChoice = false;
+                    }
                 }
                 
-                SetStartupCommandArguments(newChoice);
-                SetMostRecentString(newChoice);
+                if (acceptNewChoice)
+                {
+                    SetStartupCommandArguments(newChoice);
+                    SetMostRecentString(newChoice);
+                }
             }
 
             if (oleEventArgs.OutValue != IntPtr.Zero)
