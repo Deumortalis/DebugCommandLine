@@ -1,5 +1,5 @@
-﻿// Copyright (c) Tunnel Vision Laboratories, LLC. All Rights Reserved. Licensed under the Apache License, Version 2.0.
-// See LICENSE in the project root for license information.
+﻿// Copyright (c) Tunnel Vision Laboratories, LLC. All Rights Reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE.txt in the project root for license information.
 
 using System;
 using System.Reflection;
@@ -36,6 +36,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.1.0")]
-[assembly: AssemblyInformationalVersion("1.1.1-dev")]
+[assembly: AssemblyVersion("2.2.0.0")]
+[assembly: AssemblyFileVersion("2.2.0.0")]
+[assembly: AssemblyInformationalVersion("2.2.0-dev")]
